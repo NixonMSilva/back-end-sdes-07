@@ -3,7 +3,7 @@ name: Run Tests
 on:
   push:
     branches:
-      - main  # Change this to your main branch name if different
+      - main
       - develop
 
 jobs:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.12.2'  # Change this to your desired Node.js version
+        node-version: '20.12.2'
 
     - name: Install dependencies
       run: npm install
