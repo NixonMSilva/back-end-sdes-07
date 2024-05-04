@@ -4,6 +4,9 @@
       "module": "CommonJS",
       "target": "ES2019",
       "esModuleInterop": true,
+      "strictNullChecks": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
       "baseUrl": "src",
       "paths": {
         "@/tests/*": ["../tests/*"],

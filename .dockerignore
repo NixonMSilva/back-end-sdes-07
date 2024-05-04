@@ -1,0 +1,9 @@
+.cloudbuild.yaml
+.dockerignore
+.env
+.git
+.gitignore
+.vscode
+coverage
+Dockerfile
+node_modules
