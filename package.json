@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "build:watch": "rimraf dist && tsc -p tsconfig.build.json -w",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --no-cache",
@@ -25,12 +25,15 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
+    "multer": "^1.4.5-lts.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.12.8",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "eslint": "^8.0.1",

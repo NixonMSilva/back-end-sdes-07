@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3333
 
 # Build & start the application
-CMD npm run build && node ./dist/server.js
+CMD npm run build && node ./dist/main/server.js
