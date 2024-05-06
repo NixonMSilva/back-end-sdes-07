@@ -1,4 +1,4 @@
-import { badRequest, ok, serverError } from '../../helpers'
+import { badRequest, notFound, ok, serverError } from '../../helpers'
 import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
 import { type GetUserById } from '../../../domain/usecases'
 
@@ -14,7 +14,11 @@ export class GetUserByIdController implements Controller {
       const userId = Number(request.params.userId)
       const result = await this.getUserById.getById(userId)
 
-      return ok(result)
+      if (result) {
+        return ok(result)
+      }
+
+      return notFound()
     } catch (error) {
       console.error({ error })
       return serverError()
