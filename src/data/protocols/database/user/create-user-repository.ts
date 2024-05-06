@@ -1,4 +1,4 @@
-import type { CreateUserInput, CreateUserOutput } from '@/domain/usecases'
+import type { CreateUserInput, CreateUserOutput } from '../../../../domain/usecases'
 
 export type CreateUserRepositoryInput = CreateUserInput
 export type CreateUserRepositoryOutput = CreateUserOutput

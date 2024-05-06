@@ -1,5 +1,5 @@
-import { type LogoutRepository } from '@/data/protocols'
-import { type Logout } from '@/domain/usecases'
+import { type LogoutRepository } from '../../protocols'
+import { type Logout } from '../../../domain/usecases'
 
 export class DbLogout implements Logout {
   constructor (private readonly logoutRepository: LogoutRepository) {}

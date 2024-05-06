@@ -1,5 +1,5 @@
-import type { LoginRepository, LoginRepositoryOutput } from '@/data/protocols'
-import { type Login } from '@/domain/usecases'
+import type { LoginRepository, LoginRepositoryOutput } from '../../protocols'
+import { type Login } from '../../../domain/usecases'
 
 export class DbLogin implements Login {
   constructor (private readonly loginRepository: LoginRepository) {}

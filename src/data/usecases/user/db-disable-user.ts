@@ -1,5 +1,5 @@
-import { type DisableUserRepository } from '@/data/protocols'
-import { type DisableUser } from '@/domain/usecases'
+import { type DisableUserRepository } from '../../protocols'
+import { type DisableUser } from '../../../domain/usecases'
 
 export class DbDisableUser implements DisableUser {
   constructor (private readonly disableUserRepository: DisableUserRepository) {}

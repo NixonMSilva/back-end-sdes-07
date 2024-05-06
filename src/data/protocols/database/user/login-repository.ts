@@ -1,4 +1,4 @@
-import type { LoginOutput } from '@/domain/usecases'
+import type { LoginOutput } from '../../../../domain/usecases'
 
 export type LoginRepositoryOutput = LoginOutput
 

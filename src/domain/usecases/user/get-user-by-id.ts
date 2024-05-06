@@ -1,4 +1,4 @@
-import { type UserModel } from '@/domain/models'
+import { type UserModel } from '../../models'
 
 export type GetUserOutput = Omit<UserModel, 'password'> | null
 

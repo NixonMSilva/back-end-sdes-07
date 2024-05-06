@@ -1,6 +1,8 @@
-import { badRequest, ok, serverError } from '@/presentation/helpers'
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { type CreateUser } from '@/domain/usecases'
+import { badRequest, conflict, ok, serverError } from '../../helpers'
+import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { type CreateUser } from '../../../domain/usecases'
+
+import * as bcrypt from 'bcrypt'
 
 export class CreateUserController implements Controller {
   constructor (private readonly createUser: CreateUser) {}
@@ -14,13 +16,20 @@ export class CreateUserController implements Controller {
         return badRequest(new Error('Password is required'))
       }
 
+      const password: string = request.body.password
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       const user = await this.createUser.create({
         email: request.body.email,
-        password: request.body.password,
+        password: hashedPassword,
         type: 1
       })
 
-      return ok(user)
+      if (user) {
+        return ok(user)
+      }
+
+      return conflict(new Error('User already exists'))
     } catch (error) {
       console.error({ error })
       return serverError()

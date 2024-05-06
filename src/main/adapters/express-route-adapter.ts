@@ -1,5 +1,5 @@
 import { type Controller, type HttpRequest } from '@/presentation/protocols'
-import { timeout } from '@/main/utils'
+// import { timeout } from '../utils'
 
 import { type RequestHandler } from 'express'
 
@@ -16,20 +16,16 @@ export const adaptRoute: Adapter = controller => async (req, res) => {
 
     console.log(request)
     request.headers = req.headers
-    const httpResponse = await timeout(30, controller.handle(request))
+    const httpResponse = await controller.handle(request)
 
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) {
-      res.status(httpResponse.statusCode as number).json({ data: httpResponse.body })
+      res.status(httpResponse.statusCode).json({ data: httpResponse.body })
     } else {
-      res.status(httpResponse.statusCode as number).json({
+      res.status(httpResponse.statusCode).json({
         error: httpResponse.body.message
       })
     }
   } catch (error) {
-    if (error.message === 'Request Timeout') {
-      res.status(503).json({ error: error.message })
-    } else {
-      res.status(500).json({ error: error.message })
-    }
+    res.status(500).json({ error: error.message })
   }
 }

@@ -1,6 +1,6 @@
-import { badRequest, ok, serverError } from '@/presentation/helpers'
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { type Logout } from '@/domain/usecases'
+import { badRequest, ok, serverError } from '../../helpers'
+import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { type Logout } from '../../../domain/usecases'
 
 export class LogoutController implements Controller {
   constructor (private readonly logout: Logout) {}

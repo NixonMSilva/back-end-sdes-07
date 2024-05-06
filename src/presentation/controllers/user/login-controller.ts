@@ -1,6 +1,6 @@
-import { badRequest, ok, serverError } from '@/presentation/helpers'
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { type Login } from '@/domain/usecases'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers'
+import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { type Login } from '../../../domain/usecases'
 
 export class LoginController implements Controller {
   constructor (private readonly login: Login) {}
@@ -19,7 +19,10 @@ export class LoginController implements Controller {
 
       const user = await this.login.login(email, password)
 
-      return ok(user)
+      if (user) {
+        return ok(user)
+      }
+      return unauthorized()
     } catch (error) {
       console.error({ error })
       return serverError()

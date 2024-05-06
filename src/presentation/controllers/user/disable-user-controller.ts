@@ -1,6 +1,6 @@
-import { badRequest, ok, serverError } from '@/presentation/helpers'
-import type { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { type DisableUser } from '@/domain/usecases'
+import { badRequest, notFound, ok, serverError } from '../../helpers'
+import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { type DisableUser } from '../../../domain/usecases'
 
 export class DisableUserController implements Controller {
   constructor (private readonly disableUser: DisableUser) {}
@@ -14,7 +14,11 @@ export class DisableUserController implements Controller {
       const userId = Number(request.body.userId)
       const status = await this.disableUser.disable(userId)
 
-      return ok(status)
+      if (status) {
+        return ok('User disabled')
+      }
+
+      return notFound()
     } catch (error) {
       console.error({ error })
       return serverError()

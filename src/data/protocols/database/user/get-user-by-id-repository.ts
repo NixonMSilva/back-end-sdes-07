@@ -1,4 +1,4 @@
-import type { GetUserOutput } from '@/domain/usecases'
+import type { GetUserOutput } from '../../../../domain/usecases'
 
 export type GetUserByIdRepositoryOutput = GetUserOutput
 
