@@ -1,3 +1,3 @@
 export interface LogoutRepository {
-  login: (userId: number) => Promise<void>
+  logout: (userId: number) => Promise<void>
 }

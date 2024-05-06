@@ -5,6 +5,6 @@ export class DbGetUserById implements GetUserById {
   constructor (private readonly getUserByIdRepository: GetUserByIdRepository) {}
 
   async getById (userId: number): Promise<GetUserByIdRepositoryOutput> {
-    return await this.getUserByIdRepository.login(userId)
+    return await this.getUserByIdRepository.getById(userId)
   }
 }
