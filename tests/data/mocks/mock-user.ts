@@ -22,9 +22,9 @@ export class CreateUserRepositorySpy implements CreateUserRepository {
 
 export class DisableUserRepositorySpy implements DisableUserRepository {
   input: number
-  output: boolean
 
   async disable (userId: number): Promise<boolean> {
+    this.input = userId
     if (this.input === 999) {
       return true
     }
@@ -38,6 +38,7 @@ export class GetUserByIdRepositorySpy implements GetUserByIdRepository {
   output = mockUserModel()
 
   async getById (userId: number): Promise<GetUserByIdRepositoryOutput> {
+    this.input = userId
     if (this.input === 999) {
       return this.output
     }
