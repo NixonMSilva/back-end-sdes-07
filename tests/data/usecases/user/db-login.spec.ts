@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { LoginRepositorySpy } from '../mocks'
-import { DbLogin } from '../../../src/data/usecases'
+import { LoginRepositorySpy } from '../../mocks'
+import { DbLogin } from '../../../../src/data/usecases'
 
 type SutTypes = {
   sut: DbLogin

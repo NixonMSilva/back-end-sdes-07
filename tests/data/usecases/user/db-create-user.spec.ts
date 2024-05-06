@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { CreateUserRepositorySpy } from '../mocks'
-import { DbCreateUser } from '../../../src/data/usecases'
-import { mockCreateUserInput } from '../../domain/mocks'
+import { CreateUserRepositorySpy } from '../../mocks'
+import { DbCreateUser } from '../../../../src/data/usecases'
+import { mockCreateUserInput } from '../../../domain/mocks'
 
 type SutTypes = {
   sut: DbCreateUser

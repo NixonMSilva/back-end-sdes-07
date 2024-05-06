@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { GetUserByIdRepositorySpy } from '../mocks'
-import { DbGetUserById } from '../../../src/data/usecases'
-import { mockUserModel } from '../../domain/mocks'
+import { GetUserByIdRepositorySpy } from '../../mocks'
+import { DbGetUserById } from '../../../../src/data/usecases'
+import { mockUserModel } from '../../../domain/mocks'
 
 type SutTypes = {
   sut: DbGetUserById

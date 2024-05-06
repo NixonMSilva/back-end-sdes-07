@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { DisableUserRepositorySpy } from '../mocks'
-import { DbDisableUser } from '../../../src/data/usecases'
+import { DisableUserRepositorySpy } from '../../mocks'
+import { DbDisableUser } from '../../../../src/data/usecases'
 
 type SutTypes = {
   sut: DbDisableUser
