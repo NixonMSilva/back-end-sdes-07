@@ -1,11 +1,12 @@
-import { badRequest, conflict, ok, serverError } from '../../helpers'
+import { type Encrypter, badRequest, conflict, ok, serverError } from '../../helpers'
 import type { Controller, HttpRequest, HttpResponse } from '../../protocols'
 import { type CreateUser } from '../../../domain/usecases'
 
-import * as bcrypt from 'bcrypt'
-
 export class CreateUserController implements Controller {
-  constructor (private readonly createUser: CreateUser) {}
+  constructor (
+    private readonly createUser: CreateUser,
+    private readonly encrypter: Encrypter
+  ) {}
 
   async handle (request: HttpRequest): Promise<HttpResponse> {
     try {
@@ -17,7 +18,7 @@ export class CreateUserController implements Controller {
       }
 
       const password: string = request.body.password
-      const hashedPassword = await bcrypt.hash(password, 10)
+      const hashedPassword = await this.encrypter.encrypt(password)
 
       const user = await this.createUser.create({
         email: request.body.email,

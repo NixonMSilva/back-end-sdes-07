@@ -11,8 +11,6 @@ import type {
   LogoutRepository
 } from '../../../data/protocols'
 
-import * as bcrypt from 'bcrypt'
-
 export class UserPrismaRepository implements CreateUserRepository, DisableUserRepository, GetUserByIdRepository,
   LoginRepository, LogoutRepository {
   async create (data: CreateUserRepositoryInput): Promise<CreateUserRepositoryOutput> {
@@ -110,19 +108,17 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
     })
 
     if (user) {
-      const result = await bcrypt.compare(password, user.password)
-      if (result) {
-        const userData = {
-          id: user.id,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt,
-          lastLoginAt: user.lastLoginAt,
-          name: user.name ?? '',
-          email: user.email,
-          type: user.type
-        }
-        return userData
+      const userData = {
+        id: user.id,
+        password: user.password,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        lastLoginAt: user.lastLoginAt,
+        name: user.name ?? '',
+        email: user.email,
+        type: user.type
       }
+      return userData
     }
 
     return null

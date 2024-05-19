@@ -1,6 +1,4 @@
-/*
-import { adaptMiddleware } from '@/main/adapters'
-import { makeAuthMiddleware } from '@/main/factories'
+import { adaptMiddleware } from '../adapters'
+import { makeAuthMiddleware } from '../factories'
 
-export const auth = adaptMiddleware(makeAuthMiddleware(false))
-*/
+export const auth = adaptMiddleware(makeAuthMiddleware())

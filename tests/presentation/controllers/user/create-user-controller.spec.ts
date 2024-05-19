@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { CreateUserSpy } from '../../mocks'
 import { CreateUserController } from '../../../../src/presentation/controllers'
-import { badRequest, ok, serverError } from '../../../../src/presentation/helpers'
+import { Encrypter, badRequest, ok, serverError } from '../../../../src/presentation/helpers'
 import type { HttpRequest } from '../../../../src/presentation/protocols'
-
-import * as bcrypt from 'bcrypt'
 
 const mockRequest = (): HttpRequest => ({
   body: {
@@ -16,26 +14,28 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: CreateUserController
   createUserSpy: CreateUserSpy
+  encrypter: Encrypter
 }
 
 const makeSut = (): SutTypes => {
   const createUserSpy = new CreateUserSpy()
-  const sut = new CreateUserController(createUserSpy)
-
+  const encrypter = new Encrypter(8)
+  const sut = new CreateUserController(createUserSpy, encrypter)
   return {
     sut,
-    createUserSpy
+    createUserSpy,
+    encrypter
   }
 }
 
 describe('CreateUserController', () => {
   test('Should call CreateUserSpy with correct values', async () => {
-    const { sut, createUserSpy } = makeSut()
+    const { sut, createUserSpy, encrypter } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     expect(createUserSpy.input).toHaveProperty('email', 'any_email@mail.com')
     expect(createUserSpy.input).toHaveProperty('type', 1)
-    expect(bcrypt.compareSync('any_password', createUserSpy.input.password)).toBe(true)
+    expect(encrypter.compare('any_password', createUserSpy.input.password)).toBe(true)
   })
 
   test('Should return 500 if CreateUserSpy throws', async () => {
