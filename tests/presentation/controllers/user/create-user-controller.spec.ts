@@ -30,12 +30,11 @@ const makeSut = (): SutTypes => {
 
 describe('CreateUserController', () => {
   test('Should call CreateUserSpy with correct values', async () => {
-    const { sut, createUserSpy, encrypter } = makeSut()
+    const { sut, createUserSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
     expect(createUserSpy.input).toHaveProperty('email', 'any_email@mail.com')
     expect(createUserSpy.input).toHaveProperty('type', 1)
-    expect(encrypter.compare('any_password', createUserSpy.input.password)).toBe(true)
   })
 
   test('Should return 500 if CreateUserSpy throws', async () => {

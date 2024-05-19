@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { LoginSpy } from '../../mocks'
 import { LoginController } from '../../../../src/presentation/controllers'
-import { badRequest, ok, serverError, unauthorized } from '../../../../src/presentation/helpers'
+import { Encrypter, badRequest, ok, serverError, unauthorized } from '../../../../src/presentation/helpers'
 import type { HttpRequest } from '../../../../src/presentation/protocols'
 
 const mockRequest = (): HttpRequest => ({
@@ -13,15 +13,18 @@ const mockRequest = (): HttpRequest => ({
 
 type SutTypes = {
   sut: LoginController
+  encrypter: Encrypter
   loginSpy: LoginSpy
 }
 
 const makeSut = (): SutTypes => {
   const loginSpy = new LoginSpy()
-  const sut = new LoginController(loginSpy)
+  const encrypter = new Encrypter(8)
+  const sut = new LoginController(loginSpy, encrypter)
 
   return {
     sut,
+    encrypter,
     loginSpy
   }
 }
@@ -42,9 +45,31 @@ describe('LoginController', () => {
   })
 
   test('Should return an user on success', async () => {
-    const { sut, loginSpy } = makeSut()
+    const { sut, loginSpy, encrypter } = makeSut()
+    jest.spyOn(encrypter, 'compare').mockResolvedValueOnce(true)
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(loginSpy.output))
+    const responseMinusToken = {
+      id: httpResponse.body.id,
+      name: httpResponse.body.name,
+      email: httpResponse.body.email,
+      password: httpResponse.body.password,
+      createdAt: httpResponse.body.createdAt,
+      updatedAt: httpResponse.body.updatedAt,
+      lastLoginAt: httpResponse.body.lastLoginAt,
+      type: httpResponse.body.type
+    }
+    console.log(responseMinusToken)
+    expect(responseMinusToken).toEqual({
+      id: loginSpy.output?.id,
+      name: loginSpy.output?.name,
+      email: loginSpy.output?.email,
+      password: undefined,
+      createdAt: loginSpy.output?.createdAt,
+      updatedAt: loginSpy.output?.updatedAt,
+      lastLoginAt: loginSpy.output?.lastLoginAt,
+      type: loginSpy.output?.type
+    })
+    expect(httpResponse.body.token).toBeTruthy()
   })
 
   test('Should return 400 if data is invalid', async () => {

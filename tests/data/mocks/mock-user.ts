@@ -8,7 +8,7 @@ import type {
   LoginRepository,
   LoginRepositoryOutput
 } from '../../../src/data/protocols'
-import { mockUserModel } from '../../domain/mocks'
+import { mockUserLoginOutput, mockUserModel } from '../../domain/mocks'
 
 export class CreateUserRepositorySpy implements CreateUserRepository {
   input: CreateUserRepositoryInput
@@ -49,7 +49,7 @@ export class GetUserByIdRepositorySpy implements GetUserByIdRepository {
 
 export class LoginRepositorySpy implements LoginRepository {
   input: { email: string, password: string }
-  output = mockUserModel()
+  output = mockUserLoginOutput()
 
   async login (email: string, password: string): Promise<LoginRepositoryOutput> {
     this.input = {

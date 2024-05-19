@@ -8,7 +8,7 @@ import type {
   Login,
   LoginOutput
 } from '../../../src/domain/usecases'
-import { mockUserModel } from '../../domain/mocks'
+import { mockUserLoginOutput, mockUserModel } from '../../domain/mocks'
 
 export class CreateUserSpy implements CreateUser {
   input: CreateUserInput
@@ -49,7 +49,7 @@ export class GetUserByIdSpy implements GetUserById {
 
 export class LoginSpy implements Login {
   input: { email: string, password: string }
-  output = mockUserModel()
+  output = mockUserLoginOutput()
 
   async login (email: string, password: string): Promise<LoginOutput> {
     this.input = {
