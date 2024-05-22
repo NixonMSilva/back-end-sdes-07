@@ -11,7 +11,7 @@ services:
       - postgresql
     container_name: trkmaq
     env_file:
-      - ./.env
+      - .env
     ports:
       - ${PROCESS_PORT}:${PROCESS_PORT}
   postgresql:
@@ -28,4 +28,23 @@ services:
       - POSTGRES_DB=${DATABASE_NAME}
       - POSTGRES_INITDB_ARGS=${DATABASE_INITDB_ARGS}
     volumes:
-      - /var/cache/postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+  test-postgresql:
+    image: postgres:15-alpine
+    container_name: postgresql_trkmaq_test
+    restart: always
+    ports:
+      - ${DATABASE_PORT_TEST}:5432
+    env_file:
+      - .env.test
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=test
+      - POSTGRES_INITDB_ARGS=${DATABASE_INITDB_ARGS}
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  postgres_data_test:
