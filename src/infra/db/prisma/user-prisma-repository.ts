@@ -1,4 +1,4 @@
-import { PrismaHelper } from './prisma-helper'
+import type { PrismaClient } from '@prisma/client'
 import type {
   CreateUserRepository,
   CreateUserRepositoryInput,
@@ -13,11 +13,13 @@ import type {
 
 export class UserPrismaRepository implements CreateUserRepository, DisableUserRepository, GetUserByIdRepository,
   LoginRepository, LogoutRepository {
+  constructor (private readonly prisma: PrismaClient) {}
+
   async create (data: CreateUserRepositoryInput): Promise<CreateUserRepositoryOutput> {
     const currentDate = new Date()
 
     // Check if a user already exists with the same email before creating it
-    const existingUser = await PrismaHelper.user.findFirst({
+    const existingUser = await this.prisma.user.findFirst({
       where: {
         email: data.email
       }
@@ -28,7 +30,7 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
     }
 
     // If email is not used, proceed to usual user creation
-    const user = await PrismaHelper.user.create({
+    const user = await this.prisma.user.create({
       data: {
         lastLoginAt: currentDate.toISOString(),
         email: data.email,
@@ -51,7 +53,7 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
   }
 
   async disable (userId: number): Promise<boolean> {
-    const existingUser = await PrismaHelper.user.findUnique({
+    const existingUser = await this.prisma.user.findUnique({
       where: {
         id: userId
       }
@@ -61,7 +63,7 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
       return false
     }
 
-    const user = await PrismaHelper.user.update({
+    const user = await this.prisma.user.update({
       where: {
         id: userId
       },
@@ -78,7 +80,7 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
   }
 
   async getById (userId: number): Promise<GetUserByIdRepositoryOutput> {
-    const user = await PrismaHelper.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId
       }
@@ -101,7 +103,7 @@ export class UserPrismaRepository implements CreateUserRepository, DisableUserRe
   }
 
   async login (email: string, password: string): Promise<LoginRepositoryOutput> {
-    const user = await PrismaHelper.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         email
       }
